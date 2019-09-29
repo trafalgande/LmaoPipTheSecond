@@ -1,0 +1,11 @@
+body {
+    overflow: auto;
+    font-family: "ALS Schlange sans", serif;
+    min-height: 100%;
+    text-align: center;
+}
+.container {
+    overflow: auto;
+    font-family: "ALS Schlange sans", serif;
+    text-align: center;
+}
