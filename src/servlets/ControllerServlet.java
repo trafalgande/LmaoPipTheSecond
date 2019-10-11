@@ -18,7 +18,7 @@ public class ControllerServlet extends HttpServlet {
         String y = req.getParameter("Y");
         String r = req.getParameter("hehe");
 
-        if(x == null || y == null || r == null || req.getParameter("Xh") == null){
+        if(x == null || y == null || r == null){
             req.getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
         } else {
             req.getServletContext().getRequestDispatcher("/area_checker").forward(req, resp);

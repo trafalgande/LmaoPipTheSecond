@@ -48,7 +48,6 @@ function valR() {
     } else {
         goodR = true;
     }
-    submitButtonBehavior_();
     submitButtonBehavior();
 }
 
@@ -67,7 +66,7 @@ function valX() {
     }
     submitButtonBehavior();
 }
-function valH() {
+/*function valH() {
     var H = document.getElementById("Xh").value;
     if (H === "") {
         goodH = false;
@@ -75,7 +74,7 @@ function valH() {
         goodH = true;
     }
     submitButtonBehavior_();
-}
+}*/
 
 function submitButtonBehavior() {
     var submitButton = document.getElementById("sub");
@@ -85,14 +84,14 @@ function submitButtonBehavior() {
         submitButton.removeAttribute("disabled")
     }
 }
-function submitButtonBehavior_() {
+/*function submitButtonBehavior_() {
     var submitButton = document.getElementById("sub2");
     if (!(goodR) && !(goodH) ) {
         submitButton.setAttribute("disabled", "disable");
     } else {
         submitButton.removeAttribute("disabled")
     }
-}
+}*/
 
 function plot() {
     var ctx = document.getElementById("canvas").getContext("2d");
@@ -313,8 +312,8 @@ function setPoint(event) {
         drawDotInside(x, y, r);
         if (r !== "") {
             let row = table.insertRow(1);
-            row.insertCell(0).innerHTML = x;
-            row.insertCell(1).innerHTML = y;
+            row.insertCell(0).innerHTML = x.toFixed(2);
+            row.insertCell(1).innerHTML = y.toFixed(2);
             row.insertCell(2).innerHTML = r;
             row.insertCell(3).innerHTML = "TRUE";
         }
@@ -323,8 +322,8 @@ function setPoint(event) {
         document.getElementById("Xh").value =  "[" + a + "]";
         drawDotOutside(x, y, r);
         let row = table.insertRow(1);
-        row.insertCell(0).innerHTML = x;
-        row.insertCell(1).innerHTML = y;
+        row.insertCell(0).innerHTML = x.toFixed(2);
+        row.insertCell(1).innerHTML = y.toFixed(2);
         row.insertCell(2).innerHTML = r;
         row.insertCell(3).innerHTML = "FALSE";
     }

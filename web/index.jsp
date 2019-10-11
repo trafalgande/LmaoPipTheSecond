@@ -83,7 +83,7 @@
             <input type="hidden" id="hehe" name="hehe">
         </p>
         <p>
-            <input type="submit" id="sub" name="sub" disabled="disable" value="Submit">
+            <input type="submit" id="sub" name="sub" disabled value="Submit">
         </p>
 
     </div>
@@ -93,7 +93,7 @@
 %>
 <form id="hiddenForm" method="post" action="area_checker">
     <input type="hidden" name="Xh" id="Xh">
-    <input type="submit" id="sub2" disabled value="kill me XD">
+<%--    <input type="submit" id="sub2" disabled value="kill me XD">--%>
 </form>
 
 
@@ -153,6 +153,6 @@
 </body>
 <footer class="footer">
 
-    copyrights reserved 2019 piped
+    copyrights reserved 2019 pepeHands
 
 </footer>

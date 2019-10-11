@@ -67,10 +67,10 @@ public class AreaCheckServlet extends HttpServlet {
             list = new ArrayList<Point>();
             config.getServletContext().setAttribute("list", list);
         }
-        String json = req.getParameter("Xh");
+        /*String json = req.getParameter("Xh");
         ObjectMapper mapper = new ObjectMapper();
         List<Point> points = Arrays.asList(mapper.readValue(json, Point[].class));
-        list.addAll(points);
+        list.addAll(points);*/
 
         Integer y = Integer.parseInt(req.getParameter("Y"));
         Integer r = Integer.parseInt(req.getParameter("hehe"));
