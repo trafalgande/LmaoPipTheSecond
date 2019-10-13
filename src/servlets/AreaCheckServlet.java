@@ -1,8 +1,5 @@
 package servlets;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -11,9 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AreaCheckServlet extends HttpServlet {
@@ -46,9 +41,8 @@ public class AreaCheckServlet extends HttpServlet {
     private List<Point> list = null;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        super.doPost(req, resp);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doGet(req, resp);
     }
 
     @Override
@@ -62,19 +56,15 @@ public class AreaCheckServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (list == null) {
             list = new ArrayList<Point>();
             config.getServletContext().setAttribute("list", list);
         }
-        /*String json = req.getParameter("Xh");
-        ObjectMapper mapper = new ObjectMapper();
-        List<Point> points = Arrays.asList(mapper.readValue(json, Point[].class));
-        list.addAll(points);*/
 
-        Integer y = Integer.parseInt(req.getParameter("Y"));
-        Integer r = Integer.parseInt(req.getParameter("hehe"));
-        String[] arr = req.getParameterValues("X[]");
+        Double x = Double.parseDouble(req.getParameter("X"));
+        Double y = Double.parseDouble(req.getParameter("Y"));
+        String[] arr = req.getParameterValues("R[]");
         int[] ary = new int[arr.length];
         PrintWriter out = resp.getWriter();
         resp.setContentType("text/html");
@@ -87,63 +77,61 @@ public class AreaCheckServlet extends HttpServlet {
         out.println("</head>");
 
         out.println("<body>");
-        out.println("<div class=\"container\">\n" +
-                "  <canvas id=\"canvas\" width=\"230px\" height=\"230px\" style=\"border:1px solid #d3d3d3;\">\n" +
-                "    gaa goo lmao dont kill me\n" +
-                "  </canvas>\n" +
-                "  <script>plotV(" + r + ")</script>\n");
 
-        out.println("<table align=\"center\">");
-        out.println("<tr>");
-        out.println("<td width=\"50px\">");
-        out.println("<b>   X   </b>");
-        out.println("</td>");
-        out.println("<td width=\"50px\">");
-        out.println("<b>   Y   </b>");
-        out.println("</td>");
-        out.println("<td width=\"50px\">");
-        out.println("<b>   R   </b>");
-        out.println("</td>");
-        out.println("<td width=\"50px\">");
-        out.println("<b>   CHECK   </b>");
-        out.println("</td width=\"50px\">");
-        out.println("</tr>");
 
         for (int i = 0; i < arr.length; i++) {
             ary[i] = Integer.parseInt(arr[i]);
+            out.println("<script>plotV(" + ary[i] + "," + i + ")</script>\n");
+            out.println("<table align=\"center\">");
+            out.println("<tr>");
+            out.println("<td width=\"50px\">");
+            out.println("<b>   X   </b>");
+            out.println("</td>");
+            out.println("<td width=\"50px\">");
+            out.println("<b>   Y   </b>");
+            out.println("</td>");
+            out.println("<td width=\"50px\">");
+            out.println("<b>   R   </b>");
+            out.println("</td>");
+            out.println("<td width=\"50px\">");
+            out.println("<b>   CHECK   </b>");
+            out.println("</td width=\"50px\">");
+            out.println("</tr>");
+
             if (
-                    (ary[i] >= 0 && ary[i] <= r / 2 && y >= 0 && y <= r) ||
-                            (ary[i] <= 0 && y >= 0 && y <= ary[i] / 2 + r / 2) ||
-                            (ary[i] >= 0 && y <= 0 && (ary[i] * ary[i] + y * y) <= (r * r))
+
+                    (x >= -ary[i]/2 && x <= 0 && y >= 0 && y <= ary[i]) ||
+                            (x <= 0 && y <= 0 && (x * x + y * y) <= (ary[i] * ary[i])) ||
+                            (x >= 0 && y <= 0 && y >= x/2 + ary[i])
             ) {
-                list.add(new Point(ary[i], y, r, "TRUE"));
-                out.println("<script>drawDotInside(" + ary[i] + "," + y + "," + r + ")</script>");
+                list.add(new Point(x, y, ary[i], "TRUE"));
+                out.println("<script>drawDotInside(" + x + "," + y + "," + ary[i] + "," + i + ")</script>");
                 out.println("<tr>");
                 out.println("<td width=\"50px\">\n" +
-                        ary[i] + "\n" +
+                        x + "\n" +
                         "</td>\n");
                 out.println("<td width=\"50px\">\n" +
                         y + "\n" +
                         "</td>\n");
                 out.println("<td width=\"50px\">\n" +
-                        r + "\n" +
+                        ary[i] + "\n" +
                         "</td>\n");
                 out.println("<td width=\"50px\">\n" +
                         "TRUE!\n" +
                         "</td>\n");
 
             } else {
-                list.add(new Point(ary[i], y, r, "FALSE"));
-                out.println("<script>drawDotOutside(" + ary[i] + "," + y + "," + r + ")</script>");
+                list.add(new Point(x, y, ary[i], "FALSE"));
+                out.println("<script>drawDotOutside(" + x + "," + y + "," + ary[i] + "," + i + ")</script>");
                 out.println("<tr>");
                 out.println("<td width=\"50px\">\n" +
-                        ary[i] + "\n" +
+                        x + "\n" +
                         "</td>\n");
                 out.println("<td width=\"50px\">\n" +
                         y + "\n" +
                         "</td>\n");
                 out.println("<td width=\"50px\">\n" +
-                        r + "\n" +
+                        ary[i] + "\n" +
                         "</td>\n");
                 out.println("<td width=\"50px\">\n" +
                         "FALSE" +

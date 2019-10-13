@@ -9,19 +9,19 @@ import java.io.IOException;
 public class ControllerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req,resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String x = req.getParameter("X[]");
+        String x = req.getParameter("X");
         String y = req.getParameter("Y");
-        String r = req.getParameter("hehe");
+        String r = req.getParameter("R[]");
 
         if(x == null || y == null || r == null){
             req.getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
         } else {
             req.getServletContext().getRequestDispatcher("/area_checker").forward(req, resp);
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
     }
 }

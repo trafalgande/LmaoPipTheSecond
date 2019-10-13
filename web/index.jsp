@@ -19,7 +19,7 @@
         <div class="overlay">
             <h3>
                 Чайка Алексей, гр. P3214
-                Вариант: ххххх
+                Вариант: 509
             </h3>
         </div>
     </div>
@@ -27,76 +27,85 @@
 
 
 </div>
-<form class="form" id="form" action="controller" method="post" onsubmit="return validate(this)">
+<form class="form" id="form" action="controller" method="get" onsubmit="return validate(this)">
     <div class="left">
+        <p>
+            X value:
+            <input type="text" pattern="^(?!-0$)-?(3$|([0-2](\.\d+)?))$" id="X" name="X" size="6"
+                   placeholder="от -5 до 3"
+                   title="Используйте точку, целые и дробные числа от -5 до 3"
+                   onkeyup="valX(this);" required>
+        </p>
+        <p>
         <table>
-            Х value:
+            Y value:
             <tr>
-                <td width="50px">
-                    <input type="checkbox" name="X[]" value="-5" onchange="valX();"> -5
+                <td>
+                    <input type="radio" name="Y" required value="-2" onchange="valY()"> -2
                 </td>
-                <td width="50px">
-                    <input type="checkbox" name="X[]" value="-4" onchange="valX();"> -4
+                <td>
+                    <input type="radio" name="Y" required value="-1,5" onchange="valY()"> -1.5
                 </td>
-                <td width="50px">
-                    <input type="checkbox" name="X[]" value="-3" onchange="valX();"> -3
+                <td>
+                    <input type="radio" name="Y" required value="-1" onchange="valY()"> -1
                 </td>
             </tr>
             <tr>
-                <td width="50px">
-                    <input type="checkbox" name="X[]" value="-2" onchange="valX();"> -2
+                <td>
+                    <input type="radio" name="Y" required value="-0.5" onchange="valY()"> -0.5
                 </td>
-                <td width="50px">
-                    <input type="checkbox" name="X[]" value="-1" onchange="valX();"> -1
+                <td>
+                    <input type="radio" name="Y" required value="0" onchange="valY()"> 0
                 </td>
-                <td width="50px">
-                    <input type="checkbox" name="X[]" value="0" onchange="valX();"> 0
+                <td>
+                    <input type="radio" name="Y" required value="0.5" onchange="valY()"> 0.5
                 </td>
             </tr>
             <tr>
-                <td width="50px">
-                    <input type="checkbox" name="X[]" value="1" onchange="valX();"> 1
+                <td>
+                    <input type="radio" name="Y" required value="1" onchange="valY()"> 1
                 </td>
-                <td width="50px">
-                    <input type="checkbox" name="X[]" value="2" onchange="valX();"> 2
+                <td>
+                    <input type="radio" name="Y" required value="1.5" onchange="valY()"> 1.5
                 </td>
-                <td width="50px">
-                    <input type="checkbox" name="X[]" value="3" onchange="valX();"> 3<br>
+                <td>
+                    <input type="radio" name="Y" required value="2" onchange="valY()"> 2
                 </td>
+            </tr>
+        </table>
 
+        </p>
+        <table>
+            R value:
+            <tr>
+                <td>
+                    <input type="checkbox" name="R[]" value="1" onchange="valR(); applyHiddenR(this);"> 1
+                </td>
+                <td>
+                    <input type="checkbox" name="R[]" value="2" onchange="valR(); applyHiddenR(this);" > 2
+                </td>
+                <td>
+                    <input type="checkbox" name="R[]" value="3" onchange="valR(); applyHiddenR(this);"> 3
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" name="R[]" value="4" onchange="valR(); applyHiddenR(this);"> 4
+                </td>
+                <td>
+                    <input type="checkbox" name="R[]" value="5" onchange="valR(); applyHiddenR(this);"> 5
+                </td>
             </tr>
         </table>
         <p>
-            Y value:
-            <input type="text" pattern="^(?!-0$)-?(3$|([0-2](\.\d+)?))$" id="Y" name="Y" size="6"
-                   placeholder=" от -3 до 3"
-                   title="Используйте точку, целые и дробные числа от -3 до 3"
-                   onkeyup="valY(this);" required>
-        </p>
-        <p>
-            R value:
-            <input type="button" name="R" value="1" onclick="f1(this); valR();">
-            <input type="button" name="R" value="2" onclick="f1(this); valR();">
-            <input type="button" name="R" value="3" onclick="f1(this); valR();">
-            <input type="button" name="R" value="4" onclick="f1(this); valR();">
-            <input type="button" name="R" value="5" onclick="f1(this); valR();">
-            <input type="hidden" id="hehe" name="hehe">
-        </p>
-        <p>
             <input type="submit" id="sub" name="sub" disabled value="Submit">
         </p>
-
+        <input type="hidden" id="hiddenR">
     </div>
 </form>
 <%
     List<AreaCheckServlet.Point> list = (ArrayList<AreaCheckServlet.Point>) getServletConfig().getServletContext().getAttribute("list");
 %>
-<form id="hiddenForm" method="post" action="area_checker">
-    <input type="hidden" name="Xh" id="Xh">
-<%--    <input type="submit" id="sub2" disabled value="kill me XD">--%>
-</form>
-
-
 <div class="right">
     <canvas id="canvas" width="230px" height="230px" onclick="setPoint(event);"
             onmousemove="showCoords(event)" onmouseleave="eraseCoords(event)"
@@ -109,7 +118,6 @@
     <script>plot()</script>
 </div>
 <div class="center">
-
     <table id="res">
         <tr>
             <td width="50px">
@@ -144,9 +152,10 @@
                 <%= list.get(i).check %>
             </td>
         </tr>
-        <%
+      <%
                 }
             }
+
         %>
     </table>
 </div>

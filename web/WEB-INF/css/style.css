@@ -219,3 +219,7 @@ button:disabled {
     background-image: linear-gradient(to left, #a4e0ed 0%, #e1c5f0 50%, #a4e0ed 100%);
     transition: 1s;
 }
+
+td {
+    width: 50px;
+}
