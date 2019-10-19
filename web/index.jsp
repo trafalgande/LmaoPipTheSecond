@@ -31,7 +31,7 @@
     <div class="left">
         <p>
             X value:
-            <input type="text" pattern="^(?!-0$)-?(3$|([0-2](\.\d+)?))$" id="X" name="X" size="6"
+            <input type="text" pattern="^(?!-0$)-?(5$|([0-2](\.\d+)?))$" id="X" name="X" size="6"
                    placeholder="от -5 до 3"
                    title="Используйте точку, целые и дробные числа от -5 до 3"
                    onkeyup="valX(this);" required>
