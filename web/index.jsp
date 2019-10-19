@@ -44,7 +44,7 @@
                     <input type="radio" name="Y" required value="-2" onchange="valY()"> -2
                 </td>
                 <td>
-                    <input type="radio" name="Y" required value="-1,5" onchange="valY()"> -1.5
+                    <input type="radio" name="Y" required value="-1.5" onchange="valY()"> -1.5
                 </td>
                 <td>
                     <input type="radio" name="Y" required value="-1" onchange="valY()"> -1
