@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <title>GAA GOO LMAO DONT KILL ME XD</title>
     <script src="script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <style>
         <%@include file="/WEB-INF/css/style.css" %>
     </style>
@@ -79,21 +80,26 @@
             R value:
             <tr>
                 <td>
-                    <input type="checkbox" name="R[]" value="1" onchange="valR(); applyHiddenR(this);"> 1
+                    <input type="checkbox" name="R[]" value="1" onchange="valR(); applyHiddenR(this);"
+                           onclick="updateTable()"> 1
                 </td>
                 <td>
-                    <input type="checkbox" name="R[]" value="2" onchange="valR(); applyHiddenR(this);" > 2
+                    <input type="checkbox" name="R[]" value="2" onchange="valR(); applyHiddenR(this);"
+                           onclick="updateTable()"> 2
                 </td>
                 <td>
-                    <input type="checkbox" name="R[]" value="3" onchange="valR(); applyHiddenR(this);"> 3
+                    <input type="checkbox" name="R[]" value="3" onchange="valR(); applyHiddenR(this);"
+                           onclick="updateTable()"> 3
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="checkbox" name="R[]" value="4" onchange="valR(); applyHiddenR(this);"> 4
+                    <input type="checkbox" name="R[]" value="4" onchange="valR(); applyHiddenR(this);"
+                           onclick="updateTable()"> 4
                 </td>
                 <td>
-                    <input type="checkbox" name="R[]" value="5" onchange="valR(); applyHiddenR(this);"> 5
+                    <input type="checkbox" name="R[]" value="5" onchange="valR(); applyHiddenR(this);"
+                           onclick="updateTable()"> 5
                 </td>
             </tr>
         </table>
@@ -101,13 +107,14 @@
             <input type="submit" id="sub" name="sub" disabled value="Submit">
         </p>
         <input type="hidden" id="hiddenR">
+        <input type="hidden" id="hiddenResult">
     </div>
 </form>
 <%
     List<AreaCheckServlet.Point> list = (ArrayList<AreaCheckServlet.Point>) getServletConfig().getServletContext().getAttribute("list");
 %>
 <div class="right">
-    <canvas id="canvas" width="230px" height="230px" onclick="setPoint(event);"
+    <canvas id="canvas" width="230px" height="230px" onclick="setPoint(event); sendPoint(event);"
             onmousemove="showCoords(event)" onmouseleave="eraseCoords(event)"
             style="border:1px solid #d3d3d3;">
         gaa goo lmao dont kill me
@@ -134,6 +141,7 @@
             </td>
         </tr>
 
+
         <%
             if (list != null) {
                 for (int i = 0; i < list.size(); i++) {
@@ -152,7 +160,7 @@
                 <%= list.get(i).check %>
             </td>
         </tr>
-      <%
+        <%
                 }
             }
 
@@ -161,6 +169,60 @@
 </div>
 </body>
 <footer class="footer">
+
+    <script>
+        function updateTable() {
+            let r = $("#hiddenR").val(
+                $("input[type='checkbox']:checked").val()
+            ).val();
+            console.log(r);
+
+            if ($("#hiddenR").val() != null) {
+            <%
+            if (list != null) {
+            for (int i=0; i < list.size(); i++) {
+
+            %>
+                $.post("index.jsp",
+                    {
+                        radius: $("#hiddenR").val()
+                    }
+                );
+                <%
+                    String r = request.getParameter("radius");
+                    if (r != null)
+                        {
+                                list.set(i, new AreaCheckServlet.Point(list.get(i).x, list.get(i).y, Integer.parseInt(r), AreaCheckServlet.check(list.get(i).x, list.get(i).y, Integer.parseInt(r))));
+                        }
+                    }
+                }
+                %>
+            }
+        }
+    </script>
+    <script>
+        function sendData(x, y, r) {
+            $.get("controller",
+                {
+                    "X": x,
+                    "Y": y,
+                    "R[]" : r,
+                    "sub" : 'Submit'
+                }
+            );
+        }
+        function sendPoint(event) {
+            let canvas = document.getElementById("canvas");
+            let rect = canvas.getBoundingClientRect();
+            let offset = (rect.width - canvas.width) / 2 + 1;
+            let x = event.clientX - rect.left - offset;
+            let y = event.clientY - rect.top - offset;
+            let r = $("#hiddenR").val();
+            x = (x - 108) / 80 * r;
+            y = (108 - y) / 80 * r;
+            sendData(x.toFixed(2),y.toFixed(2),r);
+        }
+    </script>
 
     copyrights reserved 2019 pepeHands
 

@@ -36,6 +36,7 @@ public class AreaCheckServlet extends HttpServlet {
 
         public Point() {
         }
+
     }
 
     private List<Point> list = null;
@@ -144,6 +145,18 @@ public class AreaCheckServlet extends HttpServlet {
         out.println("</table>" +
                 "<br> <a href='http://localhost:8080/LmaoPipTheSecond_war_exploded'>Oh shit, here we go again...</a>");
         out.println("</body>");
+
+
+    }
+
+    public static String check(int x, int y, int r){
+        if(
+        (x >= -r/2 && x <= 0 && y >= 0 && y <= r) ||
+                (x <= 0 && y <= 0 && (x * x + y * y) <= (r * r)) ||
+                (x >= 0 && y <= 0 && y >= x/2 + r)
+        ) {
+            return "TRUE";
+        } else return "FALSE";
     }
 }
 

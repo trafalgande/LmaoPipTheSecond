@@ -389,7 +389,7 @@ function setPoint(event) {
         ctx.closePath();
         ctx.fill();
         if (r !== "") {
-            let row = table.insertRow(1);
+            let row = table.insertRow(-1);
             row.insertCell(0).innerHTML = x.toFixed(2);
             row.insertCell(1).innerHTML = y.toFixed(2);
             row.insertCell(2).innerHTML = r;
