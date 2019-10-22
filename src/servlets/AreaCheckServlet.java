@@ -15,22 +15,22 @@ public class AreaCheckServlet extends HttpServlet {
     private ServletConfig config;
 
     public static class Point {
-        public int x;
-        public int y;
+        public double x;
+        public double y;
         public int r;
         public String check;
 
-        public Point(int x, int y, int r, String check) {
+       /* public Point(int x, int y, int r, String check) {
+            this.x = (double) x;
+            this.y = (double) y;
+            this.r = r;
+            this.check = check;
+        }*/
+
+        public Point(double x, double y, int r, String check) {
             this.x = x;
             this.y = y;
             this.r = r;
-            this.check = check;
-        }
-
-        public Point(double x, double y, double r, String check) {
-            this.x = (int) x;
-            this.y = (int) y;
-            this.r = (int) r;
             this.check = check;
         }
 
@@ -59,7 +59,7 @@ public class AreaCheckServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (list == null) {
-            list = new ArrayList<Point>();
+            list = new ArrayList<>();
             config.getServletContext().setAttribute("list", list);
         }
 
@@ -149,7 +149,7 @@ public class AreaCheckServlet extends HttpServlet {
 
     }
 
-    public static String check(int x, int y, int r){
+    public static String check(double x, double y, int r){
         if(
         (x >= -r/2 && x <= 0 && y >= 0 && y <= r) ||
                 (x <= 0 && y <= 0 && (x * x + y * y) <= (r * r)) ||

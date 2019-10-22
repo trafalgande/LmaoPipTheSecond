@@ -81,25 +81,25 @@
             <tr>
                 <td>
                     <input type="checkbox" name="R[]" value="1" onchange="valR(); applyHiddenR(this);"
-                           onclick="updateTable()"> 1
+                    > 1
                 </td>
                 <td>
                     <input type="checkbox" name="R[]" value="2" onchange="valR(); applyHiddenR(this);"
-                           onclick="updateTable()"> 2
+                    > 2
                 </td>
                 <td>
                     <input type="checkbox" name="R[]" value="3" onchange="valR(); applyHiddenR(this);"
-                           onclick="updateTable()"> 3
+                    > 3
                 </td>
             </tr>
             <tr>
                 <td>
                     <input type="checkbox" name="R[]" value="4" onchange="valR(); applyHiddenR(this);"
-                           onclick="updateTable()"> 4
+                    > 4
                 </td>
                 <td>
                     <input type="checkbox" name="R[]" value="5" onchange="valR(); applyHiddenR(this);"
-                           onclick="updateTable()"> 5
+                    > 5
                 </td>
             </tr>
         </table>
@@ -110,6 +110,15 @@
         <input type="hidden" id="hiddenResult">
     </div>
 </form>
+<p>
+    <button id="cell-button" onclick="updateTable()" disabled
+            style="position: absolute; margin-left: 6.5%; width: 9%;"
+    >Update cells
+    </button>
+<div id="chosenR" style="text-align: center;"></div>
+</p>
+
+
 <%
     List<AreaCheckServlet.Point> list = (ArrayList<AreaCheckServlet.Point>) getServletConfig().getServletContext().getAttribute("list");
 %>
@@ -171,18 +180,30 @@
 <footer class="footer">
 
     <script>
+        <% if (list != null) { %>
+        $('input:checkbox').click(function () {
+            $('#hiddenR').val($(this).val());
+            if ($(this).is(":checked")) {
+                if ($('#hiddenR').val() != null) {
+                    $('#chosenR').text("Chosen R: " + $(this).val());
+                    $('#cell-button').prop('disabled', false);
+                }   else {
+                    $('#cell-button').prop('disabled', true);
+                }
+            }
+        });
+        <%}%>
+
         function updateTable() {
-            let r = $("#hiddenR").val(
-                $("input[type='checkbox']:checked").val()
-            ).val();
+            let r = $("#hiddenR").val();
             console.log(r);
 
             if ($("#hiddenR").val() != null) {
-            <%
-            if (list != null) {
-            for (int i=0; i < list.size(); i++) {
+                <%
+                if (list != null) {
+                for (int i=0; i < list.size(); i++) {
 
-            %>
+                %>
                 $.post("index.jsp",
                     {
                         radius: $("#hiddenR").val()
@@ -198,6 +219,7 @@
                 }
                 %>
             }
+            location.reload(true);
         }
     </script>
     <script>
@@ -206,11 +228,12 @@
                 {
                     "X": x,
                     "Y": y,
-                    "R[]" : r,
-                    "sub" : 'Submit'
+                    "R[]": r,
+                    "sub": 'Submit'
                 }
             );
         }
+
         function sendPoint(event) {
             let canvas = document.getElementById("canvas");
             let rect = canvas.getBoundingClientRect();
@@ -220,7 +243,7 @@
             let r = $("#hiddenR").val();
             x = (x - 108) / 80 * r;
             y = (108 - y) / 80 * r;
-            sendData(x.toFixed(2),y.toFixed(2),r);
+            sendData(x.toFixed(2), y.toFixed(2), r);
         }
     </script>
 

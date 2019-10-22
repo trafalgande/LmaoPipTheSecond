@@ -1,20 +1,19 @@
-var a = [];
 
-var goodY = false;
-var goodX = false;
-var goodR = false;
+let goodY = false;
+let goodX = false;
+let goodR = false;
 
 function validate(_form) {
-    var checkbox = document.querySelector('input[name="R[]"]:checked');
+    let checkbox = document.querySelector('input[name="R[]"]:checked');
     if (!checkbox) {
         document.getElementById("err").innerHTML = "Выберите хотя бы одно значение Х\n";
         return false;
     }
-    var X = _form.X.value;
+    let X = _form.X.value;
     if (X < -5 || X > 3 || isNaN(Y) || X === "") {
         return false;
     }
-    var radios = document.getElementsByName("Y");
+    let radios = document.getElementsByName("Y");
     while (i < radios.length) {
         if (!radios[i].checked) return false;
         i++;
@@ -23,7 +22,7 @@ function validate(_form) {
 }
 
 function valX(txt) {
-    var X = txt.value;
+    let X = txt.value;
     if (X === "") {
         goodX = false;
     } else {
@@ -33,9 +32,9 @@ function valX(txt) {
 }
 
 function valY() {
-    var count = 0;
-    var radios = document.forms["form"]["Y"];
-    for (var i of radios) {
+    let count = 0;
+    let radios = document.forms["form"]["Y"];
+    for (let i of radios) {
         if (i.checked) {
             count += 1;
         }
@@ -49,9 +48,9 @@ function valY() {
 }
 
 function valR() {
-    var count = 0;
-    var checks = document.forms["form"]["R[]"];
-    for (var i of checks) {
+    let count = 0;
+    let checks = document.forms["form"]["R[]"];
+    for (let i of checks) {
         if (i.checked) {
             count += 1;
         }
@@ -65,7 +64,7 @@ function valR() {
 }
 
 function submitButtonBehavior() {
-    var submitButton = document.getElementById("sub");
+    let submitButton = document.getElementById("sub");
     if (!(goodX && goodY && goodR)) {
         submitButton.setAttribute("disabled", "disable");
     } else {
@@ -75,7 +74,7 @@ function submitButtonBehavior() {
 
 
 function plot() {
-    var ctx = document.getElementById("canvas").getContext("2d");
+    let ctx = document.getElementById("canvas").getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.beginPath();
@@ -159,7 +158,7 @@ function plot() {
 
 
 function createCanvas(i) {
-    var canvas = document.createElement("canvas");
+    let canvas = document.createElement("canvas");
         canvas.className = 'canvas';
         canvas.width = 230;
         canvas.height = 230;
@@ -171,7 +170,7 @@ function createCanvas(i) {
 
 function plotV(r, i) {
     createCanvas(i);
-    var ctx = document.getElementById("canvas" + i).getContext("2d");
+    let ctx = document.getElementById("canvas" + i).getContext("2d");
     ctx.clearRect(0, 0, 230, 230);
     ctx.beginPath();
     ctx.fillStyle = "#7ca1ff";
@@ -253,7 +252,7 @@ function plotV(r, i) {
 }
 
 function plotW(r) {
-    var ctx = document.getElementById("canvas").getContext("2d");
+    let ctx = document.getElementById("canvas").getContext("2d");
     ctx.clearRect(0, 0, 230, 230);
     ctx.beginPath();
     ctx.fillStyle = "#7ca1ff";
@@ -335,7 +334,7 @@ function plotW(r) {
 }
 
 function drawDotInside(x, y, r, i) {
-    var ctx = document.getElementById("canvas" + i).getContext("2d");
+    let ctx = document.getElementById("canvas" + i).getContext("2d");
     ctx.beginPath();
     ctx.rect(Math.round((108 + (x / r) * 80)), Math.round((108 - (y / r) * 80)), 4, 4);
     ctx.fillStyle = "#13e158";
@@ -344,7 +343,7 @@ function drawDotInside(x, y, r, i) {
 }
 
 function drawDotOutside(x, y, r, i) {
-    var ctx = document.getElementById("canvas" + i).getContext("2d");
+    let ctx = document.getElementById("canvas" + i).getContext("2d");
     ctx.beginPath();
     ctx.rect(Math.round((108 + (x / r) * 80)), Math.round((108 - (y / r) * 80)), 4, 4);
     ctx.fillStyle = "#e11751";
@@ -450,8 +449,8 @@ function eraseCoords() {
 }
 
 function applyHiddenR() {
-    var hiddenR = document.getElementById("hiddenR").value;
-    var checkbox = document.querySelector('input[name="R[]"]:checked');
+    let hiddenR = document.getElementById("hiddenR").value;
+    let checkbox = document.querySelector('input[name="R[]"]:checked');
     if (checkbox) {
         hiddenR = checkbox.value;
         plotW(hiddenR);
