@@ -1,4 +1,4 @@
-
+var a = [];
 let goodY = false;
 let goodX = false;
 let goodR = false;
