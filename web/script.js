@@ -1,4 +1,4 @@
-var a = [];
+
 let goodY = false;
 let goodX = false;
 let goodR = false;
@@ -352,14 +352,6 @@ function drawDotOutside(x, y, r, i) {
 }
 
 
-function makeCoordinateDto(x, y, r, ch) {
-    return {
-        x: x,
-        y: y,
-        r: r,
-        check: ch
-    };
-}
 
 function setPoint(event) {
     let canvas = document.getElementById("canvas");
@@ -380,8 +372,6 @@ function setPoint(event) {
         (x <= 0 && y <= 0 && (x * x + y * y) <= (r * r))
 
     ) {
-        a.push(JSON.stringify(makeCoordinateDto(x, y, r, "TRUE")));
-
         ctx.beginPath();
         ctx.rect(Math.round((108 + (x / r) * 80)), Math.round((108 - (y / r) * 80)), 4, 4);
         ctx.fillStyle = "#13e158";
@@ -395,7 +385,6 @@ function setPoint(event) {
             row.insertCell(3).innerHTML = "TRUE";
         }
     } else {
-        a.push(JSON.stringify(makeCoordinateDto(x, y, r, "FALSE")));
         ctx.beginPath();
         ctx.rect(Math.round((108 + (x / r) * 80)), Math.round((108 - (y / r) * 80)), 4, 4);
         ctx.fillStyle = "#e11751";
