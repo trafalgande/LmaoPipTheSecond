@@ -80,25 +80,25 @@
             R value:
             <tr>
                 <td>
-                    <input type="checkbox" name="R[]" value="1" onchange="valR(); applyHiddenR(this);"
+                    <input type="checkbox" name="R[]" value="1" onchange="valR(); applyHiddenR(this); updatePlot()"
                     > 1
                 </td>
                 <td>
-                    <input type="checkbox" name="R[]" value="2" onchange="valR(); applyHiddenR(this);"
+                    <input type="checkbox" name="R[]" value="2" onchange="valR(); applyHiddenR(this); updatePlot()"
                     > 2
                 </td>
                 <td>
-                    <input type="checkbox" name="R[]" value="3" onchange="valR(); applyHiddenR(this);"
+                    <input type="checkbox" name="R[]" value="3" onchange="valR(); applyHiddenR(this); updatePlot()"
                     > 3
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="checkbox" name="R[]" value="4" onchange="valR(); applyHiddenR(this);"
+                    <input type="checkbox" name="R[]" value="4" onchange="valR(); applyHiddenR(this); updatePlot()"
                     > 4
                 </td>
                 <td>
-                    <input type="checkbox" name="R[]" value="5" onchange="valR(); applyHiddenR(this);"
+                    <input type="checkbox" name="R[]" value="5" onchange="valR(); applyHiddenR(this); updatePlot()"
                     > 5
                 </td>
             </tr>
@@ -115,7 +115,6 @@
             style="position: absolute; margin-left: 6.5%; width: 9%;"
     >Update cells
     </button>
-<div id="chosenR" style="text-align: center;"></div>
 </p>
 
 
@@ -182,15 +181,15 @@
     <script>
         <% if (list != null) { %>
         $('input:checkbox').click(function () {
-            $('#hiddenR').val($(this).val());
-            if ($(this).is(":checked")) {
-                if ($('#hiddenR').val() != null) {
-                    $('#chosenR').text("Chosen R: " + $(this).val());
+            if ($("input[name='R[]']").serializeArray().length !== 0) {
+                if ($(this).is(":checked")) {
                     $('#cell-button').prop('disabled', false);
-                }   else {
-                    $('#cell-button').prop('disabled', true);
                 }
+            } else {
+                $('#hiddenR').val("");
+                $('#cell-button').prop('disabled', true);
             }
+            $('#hiddenR').val($("input:checkbox:checked").val());
         });
         <%}%>
 
@@ -246,6 +245,31 @@
             sendData(x.toFixed(2), y.toFixed(2), r);
         }
     </script>
+
+    <script>
+
+        function updatePlot() {
+            <%
+                           if (list != null) {
+                               for (int i = 0; i < list.size(); i++) {
+                       %>
+            if($('#hiddenR').val() != null)
+            drawData(<%=list.get(i).x%>, <%=list.get(i).y%>, $('#hiddenR').val());
+            <%
+                }
+            }
+        %>
+        }
+        function drawData(x, y, r) {
+            if (
+                (x >= -r / 2 && x <= 0 && y >= 0 && y <= r) ||
+                (x >= 0 && y <= 0 && y >= x - r / 2) ||
+                (x <= 0 && y <= 0 && (x * x + y * y) <= (r * r))
+            ) drawDotInside(x, y, r, "");
+            else drawDotOutside(x, y, r, "");
+        }
+    </script>
+
 
     copyrights reserved 2019 pepeHands
 
